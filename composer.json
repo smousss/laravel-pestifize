@@ -1,18 +1,21 @@
 {
     "name": "smousss/laravel-pestifize",
-    "description": "Generate missing migrations using GPT-4.",
+    "description": "Convert PHPUnit tests to Pest 2 using GPT-4.",
     "keywords": [
         "ai",
         "artificial intelligence",
+        "automated testing",
         "chatgpt",
-        "database",
         "gpt-3",
         "gpt-4",
         "laravel",
-        "migrations",
         "openai",
+        "pest",
+        "phpunit",
         "smousss pestifize",
-        "smousss"
+        "smousss",
+        "testing",
+        "unit testing"
     ],
     "homepage": "https://github.com/smousss/laravel-pestifize",
     "license": "MIT",
