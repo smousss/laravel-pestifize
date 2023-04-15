@@ -11,7 +11,7 @@ Smousss converts every PHPUnit test you have to Pest 2. In other words, it makes
 Install the package via Composer:
 
 ```bash
-composer require smousss/laravel-pestifize
+composer require smousss/laravel-pestifize --dev
 ```
 
 Publish the config file:
