@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Http;
 
 class PestifizeCommand extends Command
 {
-    protected $signature = 'smousss:pestifize {model?*}';
+    protected $signature = 'smousss:pestifize {directory?}';
 
     protected $description = 'Migrate your tests to Pest 2';
 
@@ -26,7 +26,7 @@ class PestifizeCommand extends Command
             'Process everything!',
         ], 0);
 
-        $tests = collect(File::allFiles(base_path('tests')))->map(function (SplFileInfo $file) {
+        $tests = collect(File::allFiles($this->argument('directory') ?? base_path('tests')))->map(function (SplFileInfo $file) {
             if (str($file)->endsWith('Test.php')) {
                 return $file->getPathname();
             }

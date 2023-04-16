@@ -22,7 +22,7 @@
     "authors": [
         {
             "name": "Benjamin Crozat",
-            "email": "hello@benjamincrozat.com",
+            "email": "hello@smousss.com",
             "role": "Developer"
         }
     ],
@@ -32,6 +32,7 @@
         "illuminate/contracts": "^9.0|^10.0"
     },
     "require-dev": {
+        "guzzlehttp/guzzle": "^7.5",
         "laravel/pint": "^1.0",
         "nunomaduro/collision": "^7.9",
         "orchestra/testbench": "^8.0",
