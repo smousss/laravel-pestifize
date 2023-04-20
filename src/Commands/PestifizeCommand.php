@@ -6,6 +6,7 @@ use SplFileInfo;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Http\Client\RequestException;
 
 class PestifizeCommand extends Command
 {
@@ -32,7 +33,7 @@ class PestifizeCommand extends Command
             }
         })->filter()->values();
 
-        if ($choice === 'Choose files') {
+        if ('Choose files' === $choice) {
             $tests = collect($this->choice('Which file should Pestifize process?', $tests->toArray(), 0, null, true));
         }
 
@@ -41,19 +42,23 @@ class PestifizeCommand extends Command
 
             $this->line("GPT-4 is generating tokens for {$test}…");
 
-            $response = Http::withToken(config('pestifize.secret_key'))
-                ->timeout(300)
-                ->retry(3)
-                ->withHeaders(['Accept' => 'application/json'])
-                ->post(config('pestifize.debug', false)
-                    ? 'https://smousss.test/api/pestifize'
-                    : 'https://smousss.com/api/pestifize', compact('code'))
-                ->throw()
-                ->json();
+            try {
+                $response = Http::withToken(config('pestifize.secret_key'))
+                    ->timeout(300)
+                    ->retry(3)
+                    ->withHeaders(['Accept' => 'application/json'])
+                    ->post(config('pestifize.debug', false)
+                        ? 'https://smousss.test/api/pestifize'
+                        : 'https://smousss.com/api/pestifize', compact('code'))
+                    ->throw()
+                    ->json();
 
-            File::put($test, $response['data']);
+                File::put($test, $response['data']);
 
-            $this->info("Your test has been migrated to Pest 2 and is available at $test! 🎉 (Tokens: {$response['meta']['consumed_tokens']})");
+                $this->info("Your test has been migrated to Pest 2 and is available at $test! 🎉 (Tokens: {$response['meta']['consumed_tokens']})");
+            } catch (RequestException $e) {
+                $this->error($e->response->json()['message']);
+            }
         });
 
         return self::SUCCESS;
