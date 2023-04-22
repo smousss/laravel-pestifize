@@ -1,4 +1,6 @@
-# Pestifize for Laravel
+![Pestifize](https://user-images.githubusercontent.com/3613731/233783151-24b862f7-9e9c-4e65-95ae-00a44f0693d9.png)
+
+# Convert all your tests from PHPUnit to Pest 2
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/smousss/laravel-pestifize.svg?style=flat-square)](https://packagist.org/packages/smousss/laravel-pestifize)
 [![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/smousss/laravel-pestifize/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/smousss/laravel-pestifize/actions?query=workflow%3Arun-tests+branch%3Amain)
