@@ -1,4 +1,4 @@
-![Pestifize](https://user-images.githubusercontent.com/3613731/233783151-24b862f7-9e9c-4e65-95ae-00a44f0693d9.png)
+![Pestifize](https://user-images.githubusercontent.com/3613731/233783272-13140966-f41c-414d-9193-91d4c6e0d9e2.png)
 
 # Convert all your tests from PHPUnit to Pest 2
 
