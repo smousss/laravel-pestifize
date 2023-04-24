@@ -6,7 +6,7 @@
 [![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/smousss/laravel-pestifize/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/smousss/laravel-pestifize/actions?query=workflow%3Arun-tests+branch%3Amain)
 [![Total Downloads](https://img.shields.io/packagist/dt/smousss/laravel-pestifize.svg?style=flat-square)](https://packagist.org/packages/smousss/laravel-pestifize)
 
-Smousss converts every PHPUnit test you have to Pest 2. In other words, it makes your tests more readable, maintainable and less verbose in a matter of seconds.
+Smousss Pestifize converts every PHPUnit test you have to Pest 2. In other words, it makes your tests more readable, maintainable and less verbose in a matter of seconds.
 
 ## Installation
 
