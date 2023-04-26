@@ -18,34 +18,16 @@ beforeEach(function () {
     File::put(__DIR__ . '/output/SecondExampleTest.php', 'foo');
 });
 
-it('processes every file', function () {
-    $first = __DIR__ . '/output/FirstExampleTest.php';
-    $second = __DIR__ . '/output/SecondExampleTest.php';
-
-    artisan('smousss:pestifize', ['directory' => __DIR__ . '/output'])
-        ->expectsChoice('Should Pestifize process a particular file or everything?', 'Process everything!', [
-            'Choose files',
-            'Process everything!',
-        ])
-        ->expectsOutput("GPT-4 is generating tokens for {$first}…")
-        ->expectsOutput("Your test has been migrated to Pest 2 and is available at $first! 🎉 (Tokens: 1234)")
-        ->expectsOutput("GPT-4 is generating tokens for {$second}…")
-        ->expectsOutput("Your test has been migrated to Pest 2 and is available at $second! 🎉 (Tokens: 1234)")
-        ->assertExitCode(0);
-});
-
 it('lets user choose files', function () {
     artisan('smousss:pestifize', ['directory' => __DIR__ . '/output'])
-        ->expectsChoice('Should Pestifize process a particular file or everything?', 'Choose files', [
-            'Choose files',
-            'Process everything!',
-        ])
-        ->expectsChoice('Which file should Pestifize process?', $test = __DIR__ . '/output/FirstExampleTest.php', [
+        ->expectsOutput("Hello, I'm Smousss, your friendly AI assistant!")
+        ->expectsChoice('Which file should I process?', $test = __DIR__ . '/output/FirstExampleTest.php', [
             __DIR__ . '/output/FirstExampleTest.php',
             __DIR__ . '/output/SecondExampleTest.php',
         ])
         ->expectsOutput("GPT-4 is generating tokens for {$test}…")
-        ->expectsOutput("Your test has been migrated to Pest 2 and is available at $test! 🎉 (Tokens: 1234)")
+        ->expectsOutput("Your test has been migrated to Pest 2 and is available at $test! 🎉")
+        ->expectsOutput('Tokens: 1234')
         ->assertExitCode(0);
 });
 

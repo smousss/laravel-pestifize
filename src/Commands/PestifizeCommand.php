@@ -22,44 +22,43 @@ class PestifizeCommand extends Command
             return self::FAILURE;
         }
 
-        $choice = $this->choice('Should Pestifize process a particular file or everything?', [
-            'Choose files',
-            'Process everything!',
-        ], 0);
-
-        $tests = collect(File::allFiles($this->argument('directory') ?? base_path('tests')))->map(function (SplFileInfo $file) {
+        $files = collect(File::allFiles($this->argument('directory') ?? base_path('tests')))->map(function (SplFileInfo $file) {
             if (str($file)->endsWith('Test.php')) {
                 return $file->getPathname();
             }
-        })->filter()->values();
+        })->filter()->values()->toArray();
 
-        if ('Choose files' === $choice) {
-            $tests = collect($this->choice('Which file should Pestifize process?', $tests->toArray(), 0, null, true));
-        }
+        $this->line("Hello, I'm Smousss, your friendly AI assistant!");
 
-        $tests->each(function (string $test) {
-            $code = File::get($test);
+        $choice = $this->choice('Which file should I process?', $files, 0, null, true);
 
-            $this->line("GPT-4 is generating tokens for {$test}…");
+        collect($choice)
+            ->each(function (string $test) {
+                $code = File::get($test);
 
-            try {
-                $response = Http::withToken(config('pestifize.secret_key'))
-                    ->timeout(300)
-                    ->retry(3)
-                    ->withHeaders(['Accept' => 'application/json'])
-                    ->post(config('pestifize.debug', false)
-                        ? 'https://smousss.test/api/pestifize'
-                        : 'https://smousss.com/api/pestifize', compact('code'))
-                    ->throw()
-                    ->json();
+                $this->line("GPT-4 is generating tokens for {$test}…");
 
-                File::put($test, $response['data']);
+                try {
+                    $response = Http::withToken(config('pestifize.secret_key'))
+                        ->timeout(300)
+                        ->retry(3, 1000)
+                        ->withHeaders(['Accept' => 'application/json'])
+                        ->post(config('pestifize.debug', false)
+                            ? 'https://smousss.test/api/pestifize'
+                            : 'https://smousss.com/api/pestifize', compact('code'))
+                        ->throw()
+                        ->json();
 
-                $this->info("Your test has been migrated to Pest 2 and is available at $test! 🎉 (Tokens: {$response['meta']['consumed_tokens']})");
-            } catch (RequestException $e) {
-                $this->error($e->response->json()['message']);
-            }
-        });
+                    File::put($test, $response['data']);
+
+                    $this->info("Your test has been migrated to Pest 2 and is available at $test! 🎉");
+                    $this->info("Tokens: {$response['meta']['consumed_tokens']}");
+                } catch (RequestException $e) {
+                    $this->error($e->response->json()['message']);
+
+                    exit(self::FAILURE);
+                }
+            });
 
         return self::SUCCESS;
     }
